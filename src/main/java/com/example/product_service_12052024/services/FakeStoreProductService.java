@@ -16,13 +16,16 @@ public class FakeStoreProductService implements ProductService {
 	  
    }
    
+//   route from ProductService interface
    @Override
    public ProductResponseDto getSingleProduct(int productId) {
 	  
+//	  send to fakeStore dto
 	  FakeStoreDto fakeStoreDto = restTemplate.getForObject(
 			  "https://fakestoreapi.com/products/" + productId,
-			  FakeStoreDto.class
+			  FakeStoreDto.class	//get response back and converted to FakeStoreDto
 	  );
+//	  convert to response to controller
 	  return fakeStoreDto.toProductResponceDto();
    }
    

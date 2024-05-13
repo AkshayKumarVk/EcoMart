@@ -14,6 +14,8 @@ public class ProductController {
 	  this.productService = productService;
    }
    
+   
+//   send productId to getSingleProduct methode in the productService interface
    @GetMapping("/products/{id}")
    public ProductResponseDto getProductDetails(@PathVariable("id") int productId) {
 	  

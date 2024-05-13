@@ -23,6 +23,7 @@ public class FakeStoreDto {
       productResponseDto.setPrice(this.price);
       productResponseDto.setImage(this.image);
       productResponseDto.setCategory(this.category);
+//      response to the controller
       return productResponseDto;
    }
    
