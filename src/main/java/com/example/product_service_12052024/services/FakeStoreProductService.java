@@ -2,6 +2,7 @@ package com.example.product_service_12052024.services;
 
 import com.example.product_service_12052024.dtos.FakeStoreDto;
 import com.example.product_service_12052024.dtos.ProductResponseDto;
+import com.example.product_service_12052024.models.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,23 +21,23 @@ public class FakeStoreProductService implements ProductService {
 
    //   route from ProductService interface
    @Override
-   public List<ProductResponseDto> getAllProducts () {
+   public List<Product> getAllProducts () {
 	  FakeStoreDto[] fakeStoreDtoList = restTemplate.getForObject (
 			  "https://fakestoreapi.com/products/",
 			  FakeStoreDto[].class
 	  );
 
-	  List<ProductResponseDto> products = new ArrayList<> ();
+	  List<Product> products = new ArrayList<> ();
 
 	  for (FakeStoreDto fakeStoreDto : fakeStoreDtoList) {
-		 products.add (fakeStoreDto.toProductResponceDto ());
+		 products.add (fakeStoreDto.toProduct ());
 	  }
 	  return products;
    }
 
 
    @Override
-   public ProductResponseDto getSingleProduct (int productId) {
+   public Product getSingleProduct (int productId) {
 
 //	  send to fakeStore dto
 	  FakeStoreDto fakeStoreDto = restTemplate.getForObject (
@@ -44,11 +45,11 @@ public class FakeStoreProductService implements ProductService {
 			  FakeStoreDto.class    //get response back and converted to FakeStoreDto
 	  );
 //	  convert to response to controller
-	  return fakeStoreDto.toProductResponceDto ();
+	  return fakeStoreDto.toProduct ();
    }
 
    @Override
-   public ProductResponseDto addProduct (
+   public Product addProduct (
 		   String title,
 		   String description,
 		   String imageUrl,
@@ -68,6 +69,6 @@ public class FakeStoreProductService implements ProductService {
 			  FakeStoreDto.class
 	  );
 //	  sending to Fake store class object.
-	  return response.toProductResponceDto ();
+	  return response.toProduct ();
    }
 }

@@ -1,30 +1,41 @@
 package com.example.product_service_12052024.dtos;
 
 
+import com.example.product_service_12052024.models.Category;
+import com.example.product_service_12052024.models.Product;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Getter
 @Setter
 public class FakeStoreDto {
-   
+
    private int id;
    private String title;
    private String description;
    private double price;
    private String image;
    private String category;
-   
-   public ProductResponseDto toProductResponceDto() {
-      ProductResponseDto productResponseDto = new ProductResponseDto();
-      productResponseDto.setId(this.id);
-      productResponseDto.setTitle(this.title);
-      productResponseDto.setDescription(this.description);
-      productResponseDto.setPrice(this.price);
-      productResponseDto.setImage(this.image);
-      productResponseDto.setCategory(this.category);
+
+   public Product toProduct () {
+
+	  Product product = new Product ();
+
+	  product.setId (this.id);
+	  product.setTitle (this.title);
+	  product.setDescription (this.description);
+	  product.setPrice (this.price);
+	  product.setImageUrl (this.image);
+
+	  Category categoryObj = new Category ();
+	  categoryObj.setTitle (category);
+
+	  product.setCategory (categoryObj);
+
 //      response to the controller
-      return productResponseDto;
+	  return product;
    }
-   
+
 }

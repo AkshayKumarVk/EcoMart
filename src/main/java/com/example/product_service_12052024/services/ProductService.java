@@ -1,6 +1,7 @@
 package com.example.product_service_12052024.services;
 
 import com.example.product_service_12052024.dtos.ProductResponseDto;
+import com.example.product_service_12052024.models.Product;
 
 import java.util.List;
 
@@ -8,11 +9,12 @@ public interface ProductService {
 
 //   routed to the implementation
 
-   public List<ProductResponseDto> getAllProducts();
+   public List<Product> getAllProducts();
 
-   public ProductResponseDto getSingleProduct(int id);
+   public Product getSingleProduct(int id);
    
-   public ProductResponseDto addProduct(
+   public Product addProduct(
+		   
            String title,
            String description,
            String imageUrl,
