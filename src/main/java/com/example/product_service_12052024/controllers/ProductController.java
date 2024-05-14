@@ -5,6 +5,9 @@ import com.example.product_service_12052024.dtos.ProductResponseDto;
 import com.example.product_service_12052024.services.ProductService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class ProductController {
    
@@ -12,6 +15,14 @@ public class ProductController {
    
    public ProductController(ProductService productService) {
 	  this.productService = productService;
+   }
+
+   @GetMapping("/products")
+   public List<ProductResponseDto> getAllProducts() {
+
+	   List<ProductResponseDto> productResponseDto = productService.getAllProducts();
+
+		return productResponseDto;
    }
    
    
