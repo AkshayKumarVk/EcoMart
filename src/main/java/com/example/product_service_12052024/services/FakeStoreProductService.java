@@ -49,7 +49,7 @@ public class FakeStoreProductService implements ProductService {
 			  fakeStoreDto,
 			  FakeStoreDto.class
 	  );
-	  
-	  return fakeStoreDto.toProductResponceDto();
+//	  sending to Fake store class object.
+	  return response.toProductResponceDto();
    }
 }
