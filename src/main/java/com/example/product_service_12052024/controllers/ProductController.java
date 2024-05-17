@@ -69,13 +69,16 @@ public class ProductController {
 
    }
 
-   //   Add Exception Handler
-   @ExceptionHandler(ProductNotFoundException.class)
-   public ResponseEntity<ErrorDto> handleProductNotFoundException (ProductNotFoundException productNotFoundException) {
+//   //   Add Exception Handler
 
-	  ErrorDto errorDto = new ErrorDto ();
-	  errorDto.setErrorMessage (productNotFoundException.getMessage ());
+//   Moved to controllerAdvice
 
-	  return new ResponseEntity<> (errorDto, HttpStatus.NOT_FOUND);
-   }
+//   @ExceptionHandler(ProductNotFoundException.class)
+//   public ResponseEntity<ErrorDto> handleProductNotFoundException (ProductNotFoundException productNotFoundException) {
+//
+//	  ErrorDto errorDto = new ErrorDto ();
+//	  errorDto.setErrorMessage (productNotFoundException.getMessage ());
+//
+//	  return new ResponseEntity<> (errorDto, HttpStatus.NOT_FOUND);
+//   }
 }
