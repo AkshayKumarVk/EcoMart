@@ -1,6 +1,5 @@
 package com.example.product_service_12052024.controllers;
 
-import com.example.product_service_12052024.dtos.ErrorDto;
 import com.example.product_service_12052024.dtos.ProductRequestDto;
 import com.example.product_service_12052024.dtos.ProductResponseDto;
 import com.example.product_service_12052024.exception.ProductNotFoundException;
@@ -24,38 +23,56 @@ public class ProductController {
 	  this.modelMapper = modelMapper;
    }
 
+//   Get All Products
    @GetMapping("/products")
-   public ResponseEntity< List<Product> >getAllProducts () {
+   public ResponseEntity<List<Product>> getAllProducts () {
 
 	  List<Product> products = productService.getAllProducts ();
 
-	  return new ResponseEntity<> (products,HttpStatus.FOUND);
+	  return new ResponseEntity<> (products, HttpStatus.FOUND);
    }
 
-
+//Get Single Product
    //   send productId to getSingleProduct methode in the productService interface
    @GetMapping("/products/{id}")
-   public ResponseEntity< ProductResponseDto> getProductDetails (@PathVariable("id") int productId)
+   public ResponseEntity<ProductResponseDto> getProductDetails (@PathVariable("id") Long productId)
 		   throws ProductNotFoundException {
 
 	  Product product = productService.getSingleProduct (productId);
-	  return new ResponseEntity<> (convertProductToProductResponseDto (product),HttpStatus.FOUND);
+	  return new ResponseEntity<> (convertProductToProductResponseDto (product), HttpStatus.FOUND);
 
    }
 
 
    @PostMapping("/products")
-   public ResponseEntity<Product> createNewProduct (@RequestBody ProductRequestDto productRequestDto) {
-	   Product product=productService.addProduct (
-			   productRequestDto.getTitle (),
-			   productRequestDto.getDescription (),
-			   productRequestDto.getImage (),
-			   productRequestDto.getCategory (),
-			   productRequestDto.getPrice ()
-	   );
+   public ResponseEntity<ProductResponseDto> createNewProduct (@RequestBody ProductRequestDto productRequestDto) {
+	  Product product = productService.addProduct (
+			  productRequestDto.getTitle (),
+			  productRequestDto.getDescription (),
+			  productRequestDto.getImage (),
+			  productRequestDto.getCategory (),
+			  productRequestDto.getPrice ()
+	  );
 
-	   return  new ResponseEntity<> (product, HttpStatus.CREATED);
+//	  return new ResponseEntity<> (product, HttpStatus.CREATED);
+	  ProductResponseDto productResponseDto = convertProductToProductResponseDto (product);
+
+	  return new ResponseEntity<> (productResponseDto, HttpStatus.CREATED);
    }
+
+
+//   Delete Product
+
+   @DeleteMapping("/products/{id}")
+   public ResponseEntity<ProductResponseDto> deleteProduct (@PathVariable("id") Long productId)
+		   throws ProductNotFoundException {
+
+	  Product product = productService.deleteProduct (productId);
+	  ProductResponseDto productResponseDto = convertProductToProductResponseDto (product);
+
+	  return new ResponseEntity<> (productResponseDto, HttpStatus.OK);
+   }
+
 
 
    private ProductResponseDto convertProductToProductResponseDto (Product product) {

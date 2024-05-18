@@ -1,9 +1,9 @@
 package com.example.product_service_12052024.services;
 
 import com.example.product_service_12052024.dtos.FakeStoreDto;
-import com.example.product_service_12052024.dtos.ProductResponseDto;
 import com.example.product_service_12052024.exception.ProductNotFoundException;
 import com.example.product_service_12052024.models.Product;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -38,7 +38,7 @@ public class FakeStoreProductService implements ProductService {
 
 
    @Override
-   public Product getSingleProduct (int productId) throws ProductNotFoundException {
+   public Product getSingleProduct (Long productId) throws ProductNotFoundException {
 
 //	  send to fakeStore dto
 	  FakeStoreDto fakeStoreDto = restTemplate.getForObject (
@@ -49,12 +49,13 @@ public class FakeStoreProductService implements ProductService {
 	  if (fakeStoreDto == null) {
 
 		 throw new ProductNotFoundException (
-				 "Product with id "+ productId+" Not available, try something different."
+				 "Product with id " + productId + " Not available, try something different."
 		 );
 	  }
 //	  convert to response to controller
 	  return fakeStoreDto.toProduct ();
    }
+
 
    @Override
    public Product addProduct (
@@ -64,19 +65,35 @@ public class FakeStoreProductService implements ProductService {
 		   String category,
 		   double price
    ) {
-	  FakeStoreDto fakeStoreDto = new FakeStoreDto ();
-	  fakeStoreDto.setTitle (title);
-	  fakeStoreDto.setDescription (description);
-	  fakeStoreDto.setImage (imageUrl);
-	  fakeStoreDto.setCategory (category);
-	  fakeStoreDto.setPrice (price);
+	  FakeStoreDto requestDto = new FakeStoreDto ();
+	  requestDto.setTitle (title);
+	  requestDto.setDescription (description);
+	  requestDto.setImage (imageUrl);
+	  requestDto.setCategory (category);
+	  requestDto.setPrice (price);
 
 	  FakeStoreDto response = restTemplate.postForObject (
 			  "https://fakestoreapi.com/products/",
-			  fakeStoreDto,
+			  requestDto,
 			  FakeStoreDto.class
 	  );
 //	  sending to Fake store class object.
 	  return response.toProduct ();
+
+
+   }
+   public Product deleteProduct (Long productId)throws ProductNotFoundException {
+		FakeStoreDto fakeStoreDto =restTemplate.exchange (
+				"http://fakestoreapi.com/products/"+productId,
+				HttpMethod.DELETE, null, FakeStoreDto.class
+		).getBody ();
+
+		if (fakeStoreDto==null){
+		   throw new ProductNotFoundException (
+				   "Product with id "+productId+"not found, try deleting a product with id less than 21"
+		   );
+		}
+
+		return fakeStoreDto.toProduct ();
    }
 }

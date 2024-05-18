@@ -10,17 +10,24 @@ public interface ProductService {
 
 //   routed to the implementation
 
+
+//   Get All Products
    public List<Product> getAllProducts();
 
-   public Product getSingleProduct(int id) throws ProductNotFoundException;
-   
+//   Get Single Product
+   public Product getSingleProduct(Long id) throws ProductNotFoundException;
+
+
+//   Add Products
    public Product addProduct(
-		   
+
            String title,
            String description,
            String imageUrl,
            String category,
            double price
    );
-   
+//   Delete Product
+   public  Product deleteProduct( Long productId) throws ProductNotFoundException;
+
 }
