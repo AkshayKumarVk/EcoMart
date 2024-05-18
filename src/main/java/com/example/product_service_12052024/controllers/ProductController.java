@@ -23,7 +23,7 @@ public class ProductController {
 	  this.modelMapper = modelMapper;
    }
 
-//   Get All Products
+   //   Get All Products
    @GetMapping("/products")
    public ResponseEntity<List<Product>> getAllProducts () {
 
@@ -32,7 +32,7 @@ public class ProductController {
 	  return new ResponseEntity<> (products, HttpStatus.FOUND);
    }
 
-//Get Single Product
+   //Get Single Product
    //   send productId to getSingleProduct methode in the productService interface
    @GetMapping("/products/{id}")
    public ResponseEntity<ProductResponseDto> getProductDetails (@PathVariable("id") Long productId)
@@ -74,6 +74,44 @@ public class ProductController {
    }
 
 
+   //   Patch Product
+   @PatchMapping("/products/{id}")
+   public ResponseEntity<ProductResponseDto> updateProduct (@PathVariable("id") Long productId,
+															@RequestBody ProductRequestDto productRequestDto)
+		   throws ProductNotFoundException {
+
+	  Product product = productService.updateProduct (productId,
+			  productRequestDto.getTitle (),
+			  productRequestDto.getDescription (),
+			  productRequestDto.getImage (),
+			  productRequestDto.getCategory (),
+			  productRequestDto.getPrice ());
+
+	  ProductResponseDto productResponseDto = convertProductToProductResponseDto (product);
+
+	  return new ResponseEntity<> (productResponseDto, HttpStatus.OK);
+
+   }
+
+
+   //   Put product
+   @PutMapping("/products/{id}")
+   public ResponseEntity<ProductResponseDto> replaceProduct (@PathVariable("id") Long productId,
+															 @RequestBody ProductRequestDto productRequestDto)
+		   throws ProductNotFoundException {
+
+Product product=productService.replaceProduct (productId,
+		productRequestDto.getTitle (),
+		productRequestDto.getDescription (),
+		productRequestDto.getImage (),
+		productRequestDto.getCategory (),
+		productRequestDto.getPrice ()
+		);
+ProductResponseDto productResponseDto=convertProductToProductResponseDto (product);
+return new ResponseEntity<> (productResponseDto,HttpStatus.OK);
+
+
+   }
 
    private ProductResponseDto convertProductToProductResponseDto (Product product) {
 

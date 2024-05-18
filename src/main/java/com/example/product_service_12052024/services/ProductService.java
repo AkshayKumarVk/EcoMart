@@ -1,6 +1,5 @@
 package com.example.product_service_12052024.services;
 
-import com.example.product_service_12052024.dtos.ProductResponseDto;
 import com.example.product_service_12052024.exception.ProductNotFoundException;
 import com.example.product_service_12052024.models.Product;
 
@@ -11,23 +10,44 @@ public interface ProductService {
 //   routed to the implementation
 
 
-//   Get All Products
-   public List<Product> getAllProducts();
+   //   Get All Products
+   List<Product> getAllProducts ();
 
-//   Get Single Product
-   public Product getSingleProduct(Long id) throws ProductNotFoundException;
+   //   Get Single Product
+   Product getSingleProduct (Long id) throws ProductNotFoundException;
 
 
-//   Add Products
-   public Product addProduct(
+   //   Add Products
+   Product addProduct (
 
-           String title,
-           String description,
-           String imageUrl,
-           String category,
-           double price
+		   String title,
+		   String description,
+		   String imageUrl,
+		   String category,
+		   double price
    );
-//   Delete Product
-   public  Product deleteProduct( Long productId) throws ProductNotFoundException;
+
+   //   Delete Product
+   Product deleteProduct (Long productId) throws ProductNotFoundException;
+
+   //   Patch Product
+   Product updateProduct (
+		   Long productId,
+		   String title,
+		   String description,
+		   String imageUrl,
+		   String category,
+		   double price
+   ) throws ProductNotFoundException;
+
+
+   //   Put Mapping
+   Product replaceProduct (
+		   Long productId,
+		   String title,
+		   String description,
+		   String imageUrl,
+		   String category,
+		   double price) throws ProductNotFoundException;
 
 }
