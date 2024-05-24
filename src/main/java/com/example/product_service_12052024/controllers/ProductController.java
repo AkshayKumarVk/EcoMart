@@ -6,6 +6,7 @@ import com.example.product_service_12052024.exception.ProductNotFoundException;
 import com.example.product_service_12052024.models.Product;
 import com.example.product_service_12052024.services.ProductService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class ProductController {
    private final ProductService productService;
    private final ModelMapper modelMapper;
 
-   public ProductController (ProductService productService, ModelMapper modelMapper) {
+   public ProductController (@Qualifier("selfProductService") ProductService productService, ModelMapper modelMapper) {
 	  this.productService = productService;
 	  this.modelMapper = modelMapper;
    }
@@ -49,7 +50,7 @@ public class ProductController {
 	  Product product = productService.addProduct (
 			  productRequestDto.getTitle (),
 			  productRequestDto.getDescription (),
-			  productRequestDto.getImage (),
+			  productRequestDto.getImageUrl (),
 			  productRequestDto.getCategory (),
 			  productRequestDto.getPrice ()
 	  );
@@ -70,7 +71,7 @@ public class ProductController {
 	  Product product = productService.deleteProduct (productId);
 	  ProductResponseDto productResponseDto = convertProductToProductResponseDto (product);
 
-	  return new ResponseEntity<> (productResponseDto, HttpStatus.OK);
+	  return new ResponseEntity<> (productResponseDto, HttpStatus.ACCEPTED);
    }
 
 
@@ -83,7 +84,7 @@ public class ProductController {
 	  Product product = productService.updateProduct (productId,
 			  productRequestDto.getTitle (),
 			  productRequestDto.getDescription (),
-			  productRequestDto.getImage (),
+			  productRequestDto.getImageUrl (),
 			  productRequestDto.getCategory (),
 			  productRequestDto.getPrice ());
 
@@ -103,7 +104,7 @@ public class ProductController {
 Product product=productService.replaceProduct (productId,
 		productRequestDto.getTitle (),
 		productRequestDto.getDescription (),
-		productRequestDto.getImage (),
+		productRequestDto.getImageUrl (),
 		productRequestDto.getCategory (),
 		productRequestDto.getPrice ()
 		);

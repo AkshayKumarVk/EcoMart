@@ -6,8 +6,6 @@ import com.example.product_service_12052024.models.Product;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
-
 @Getter
 @Setter
 public class FakeStoreDto {
