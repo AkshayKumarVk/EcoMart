@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,12 +27,20 @@ public class ProductController {
 
    //   Get All Products
    @GetMapping("/products")
-   public ResponseEntity<List<Product>> getAllProducts () {
-
-	  List<Product> products = productService.getAllProducts ();
-
-	  return new ResponseEntity<> (products, HttpStatus.FOUND);
+   public List<ProductResponseDto> getAllProducts() {
+	  List<Product> products = productService.getAllProducts();
+	  List<ProductResponseDto> productResponseDtos = new ArrayList<> ();
+	  for (Product product : products) {
+		 productResponseDtos.add(convertProductToProductResponseDto(product));
+	  }
+	  return productResponseDtos;
    }
+//   public ResponseEntity<List<Product>> getAllProducts () {
+//
+//	  List<Product> products = productService.getAllProducts ();
+//
+//	  return new ResponseEntity<> (products, HttpStatus.FOUND);
+//   }
 
    //Get Single Product
    //   send productId to getSingleProduct methode in the productService interface
