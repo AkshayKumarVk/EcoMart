@@ -40,12 +40,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
 //   Native Query
 
-   @Query(value = "select p.id AS id, p.title as title, p.price as price from Product p where p.category_id=:categoryId", nativeQuery = true)
+   @Query(value = "select p.id AS id, p.title as title, p.price as price from product_service.product p where p.category_id=:categoryId", nativeQuery = true)
    List<ProductProjection> productWithId (Long categoryId);
 
 
    //   Native Query 2
-   @Query(value = "select p.id id, p.title as title, p.price as price from Product p join category c on p.category_id = c.id where c.title=:categoryTitle", nativeQuery = true)
+   @Query(value = "select p.id as id, p.title as title, p.price as price from product_service.product p join product_service.category c on p.category_id = c.id where c.title=:categoryTitle", nativeQuery = true)
    List<ProductProjection> productWithCatTitle (String categoryTitle);
 }
 

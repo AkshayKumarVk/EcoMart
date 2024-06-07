@@ -25,15 +25,18 @@ public class ProductController {
 	  this.modelMapper = modelMapper;
    }
 
+
+
+
    //   Get All Products
    @GetMapping("/products")
-   public List<ProductResponseDto> getAllProducts() {
-	  List<Product> products = productService.getAllProducts();
+   public ResponseEntity<List<ProductResponseDto>> getAllProducts () throws ProductNotFoundException {
+	  List<Product> products = productService.getAllProducts ();
 	  List<ProductResponseDto> productResponseDtos = new ArrayList<> ();
 	  for (Product product : products) {
-		 productResponseDtos.add(convertProductToProductResponseDto(product));
+		 productResponseDtos.add (convertProductToProductResponseDto (product));
 	  }
-	  return productResponseDtos;
+	  return new ResponseEntity<> (productResponseDtos, HttpStatus.OK);
    }
 //   public ResponseEntity<List<Product>> getAllProducts () {
 //
@@ -55,7 +58,8 @@ public class ProductController {
 
 
    @PostMapping("/products")
-   public ResponseEntity<ProductResponseDto> createNewProduct (@RequestBody ProductRequestDto productRequestDto) {
+   public ResponseEntity<ProductResponseDto> createNewProduct (@RequestBody ProductRequestDto productRequestDto)
+		   throws ProductNotFoundException {
 	  Product product = productService.addProduct (
 			  productRequestDto.getTitle (),
 			  productRequestDto.getDescription (),
@@ -110,15 +114,15 @@ public class ProductController {
 															 @RequestBody ProductRequestDto productRequestDto)
 		   throws ProductNotFoundException {
 
-Product product=productService.replaceProduct (productId,
-		productRequestDto.getTitle (),
-		productRequestDto.getDescription (),
-		productRequestDto.getImageUrl (),
-		productRequestDto.getCategory (),
-		productRequestDto.getPrice ()
-		);
-ProductResponseDto productResponseDto=convertProductToProductResponseDto (product);
-return new ResponseEntity<> (productResponseDto,HttpStatus.OK);
+	  Product product = productService.replaceProduct (productId,
+			  productRequestDto.getTitle (),
+			  productRequestDto.getDescription (),
+			  productRequestDto.getImageUrl (),
+			  productRequestDto.getCategory (),
+			  productRequestDto.getPrice ()
+	  );
+	  ProductResponseDto productResponseDto = convertProductToProductResponseDto (product);
+	  return new ResponseEntity<> (productResponseDto, HttpStatus.OK);
 
 
    }

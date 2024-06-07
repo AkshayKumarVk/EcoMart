@@ -1,13 +1,17 @@
 package com.example.product_service_12052024;
 
+import com.example.product_service_12052024.models.Category;
 import com.example.product_service_12052024.models.Product;
+import com.example.product_service_12052024.repositories.CategoryRepository;
 import com.example.product_service_12052024.repositories.ProductRepository;
 import com.example.product_service_12052024.repositories.projections.ProductProjection;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 class ProductService12052024ApplicationTests {
@@ -15,6 +19,8 @@ class ProductService12052024ApplicationTests {
 
    @Autowired
    private ProductRepository productRepository;
+   @Autowired
+   private CategoryRepository categoryRepository;
 
    @Test
    void contextLoads () {
@@ -80,9 +86,9 @@ class ProductService12052024ApplicationTests {
    }
 
 
-//   Native Query
+   //   Native Query
    @Test
-   void testNativeSQL(){
+   void testNativeSQL () {
 	  List<ProductProjection> productProjections = productRepository.productWithId (2L);
 
 	  for (ProductProjection productProjection : productProjections) {
@@ -104,4 +110,31 @@ class ProductService12052024ApplicationTests {
 	  }
    }
 
+   @Test
+   @Transactional
+   void testFetchModes () {
+	  Optional<Category> category = categoryRepository.findById (1L);
+	  if (category.isPresent ()) {
+		 System.out.println (category.get ().getTitle ());
+
+		 List<Product> products = category.get ().getProducts ();
+		 for (Product product : products) {
+			System.out.println (product.getTitle ());
+		 }
+	  }
+   }
+
+   @Test
+   @Transactional
+   void testFetchMode(){
+	  List<Category> categories=categoryRepository.findByTitleEndingWith("Mobiles");
+
+	  for (Category cats: categories){
+		 System.out.println (cats.getTitle ());
+
+		 List<Product> productList= cats.getProducts ()	;
+		  for (Product products:productList)
+			 System.out.println (products.getTitle ());
+	  }
+   }
 }

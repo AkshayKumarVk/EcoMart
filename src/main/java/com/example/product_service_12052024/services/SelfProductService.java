@@ -53,6 +53,10 @@ public class SelfProductService implements ProductService {
 
    @Override
    public List<Product> getAllProducts () {
+
+//	  if (productRepository.count () == 0) {
+//		 throw new ProductNotFoundException ("There is nothing listed.");
+//	  }
 	  return productRepository.findAll ();
    }
 
@@ -108,9 +112,9 @@ public class SelfProductService implements ProductService {
 			newCategory.setTitle (category);
 			categoryFromDb = newCategory;
 		 }
-		productInDb.setCategory (categoryFromDb);
+		 productInDb.setCategory (categoryFromDb);
 	  }
-	  return productRepository.save(productInDb);
+	  return productRepository.save (productInDb);
    }
 
    @Override

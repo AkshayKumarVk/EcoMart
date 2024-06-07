@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>product_service_12052024</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-Added home page</version>
     <name>product_service_12052024</name>
     <description>product_service_12052024</description>
     <properties>
@@ -87,6 +87,22 @@
             <scope>runtime</scope>
         </dependency>
         <!--MySQL-->
+
+        <!--        Schema Versioning-->
+        <!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-core -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>10.13.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-mysql -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+            <version>10.13.0</version>
+        </dependency>
+
+        <!--        Schema Versioning-->
 
     </dependencies>
 
