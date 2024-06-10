@@ -2,6 +2,7 @@ package com.example.product_service_12052024.repositories;
 
 import com.example.product_service_12052024.models.Product;
 import com.example.product_service_12052024.repositories.projections.ProductProjection;
+import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -61,6 +62,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
    @Query(value = "SELECT c.id, p.title , p.price from product_service.product p join product_service.category" +
 						  " c on c.id = p.category_id where c.id=:categoryName", nativeQuery = true)
-   List<ProductProjection> findProductsByCategoryName (int categoryName);
+   List<ProductProjection> findProductsByCategoryName (@Param ("categoryName") int categoryName);
 }
 

@@ -46,7 +46,7 @@ public class ProductController {
 		   @RequestParam("pageNumber") int pageNumber,
 		   @RequestParam("pageSize") int pageSize,
 		   @RequestParam("sortBy") String sortParam
-   ) throws ProductNotFoundException {
+   		) throws ProductNotFoundException {
 	  Page<Product> products = productService.getAllProducts (
 			  pageNumber,
 			  pageSize,
