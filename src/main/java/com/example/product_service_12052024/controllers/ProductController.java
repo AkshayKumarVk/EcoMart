@@ -22,7 +22,7 @@ public class ProductController {
    private final ProductService productService;
    private final ModelMapper modelMapper;
 
-   public ProductController (@Qualifier("selfProductService") ProductService productService, ModelMapper modelMapper) {
+   public ProductController (@Qualifier("fakeStoreProductService") ProductService productService, ModelMapper modelMapper) {
 	  this.productService = productService;
 	  this.modelMapper = modelMapper;
    }
@@ -47,7 +47,10 @@ public class ProductController {
 		   @RequestParam("pageSize") int pageSize,
 		   @RequestParam("sortBy") String sortParam
    ) throws ProductNotFoundException {
-	  Page<Product> products = productService.getAllProducts (pageNumber, pageSize,sortParam);
+	  Page<Product> products = productService.getAllProducts (
+			  pageNumber,
+			  pageSize,
+			  sortParam);
 
 	  List<ProductResponseDto> productResponseDtos = new ArrayList<> ();
 

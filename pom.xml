@@ -104,6 +104,12 @@
 
         <!--        Schema Versioning-->
 
+        <!--        Redis Cache dependency -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!--        Redis Cache dependency -->
     </dependencies>
 
 </project>

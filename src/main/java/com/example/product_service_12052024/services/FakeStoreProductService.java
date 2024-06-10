@@ -4,6 +4,7 @@ import com.example.product_service_12052024.dtos.FakeStoreDto;
 import com.example.product_service_12052024.exception.ProductNotFoundException;
 import com.example.product_service_12052024.models.Product;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,12 @@ import java.util.List;
 public class FakeStoreProductService implements  ProductService {
 
    private final RestTemplate restTemplate;
+   private RedisTemplate redisTemplate;
 
-   public FakeStoreProductService (RestTemplate restTemplate) {
+   public FakeStoreProductService (RestTemplate restTemplate,
+								   RedisTemplate redisTemplate) {
 	  this.restTemplate = restTemplate;
+	  this.redisTemplate = redisTemplate;
 
    }
 
@@ -49,6 +53,22 @@ public class FakeStoreProductService implements  ProductService {
    @Override
    public Product getSingleProduct (Long productId) throws ProductNotFoundException {
 
+//	  Caching
+//	  First check in cache
+
+	  Product productInCache =(Product) redisTemplate.opsForHash ().get (
+			  "PRODUCT",
+			  "PRODUCT_"+productId);
+	  
+	  if (productInCache != null) {
+		 System.out.println ("Product: "+productId+" found in cache");
+		 return productInCache;
+	  }
+
+//	  Caching
+
+
+	  System.out.println ("Product: "+productId+" not in cache");
 //	  send to fakeStore dto
 	  FakeStoreDto fakeStoreDto = restTemplate.getForObject (
 			  "https://fakestoreapi.com/products/" + productId,
@@ -62,7 +82,15 @@ public class FakeStoreProductService implements  ProductService {
 		 );
 	  }
 //	  convert to response to controller
-	  return fakeStoreDto.toProduct ();
+	  Product productNotInCache = fakeStoreDto.toProduct ();
+//	  convert to response to controller
+
+//	  Adding to cache
+	  redisTemplate.opsForHash ().put ("PRODUCT",
+			  "PRODUCT_"+productId, productNotInCache);
+//	  Adding to cache
+
+	  return  productNotInCache;
    }
 
    //Add product
