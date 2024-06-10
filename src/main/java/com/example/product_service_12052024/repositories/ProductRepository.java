@@ -2,6 +2,8 @@ package com.example.product_service_12052024.repositories;
 
 import com.example.product_service_12052024.models.Product;
 import com.example.product_service_12052024.repositories.projections.ProductProjection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -15,12 +17,19 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
    //   Get All Products
    List<Product> findAll ();
 
+//   Get all products by page
+   Page<Product> findAll(Pageable pageable);
+
    //   Get Single Product
    Product findByIdIs (Long id);
 
+
+
+   //   Queries
+   List<Product> findByCategory_TitleContaining (String title);
+
    List<Product> findByCategory_Title (String title);
 
-   List<Product> findByCategory_TitleContaining (String title);
 
    @Query("select p from Product p where p.category.title=:categoryName")
    List<Product> getProductWithCategoryName (String categoryName);
@@ -45,7 +54,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
 
    //   Native Query 2
-   @Query(value = "select p.id as id, p.title as title, p.price as price from product_service.product p join product_service.category c on p.category_id = c.id where c.title=:categoryTitle", nativeQuery = true)
+   @Query(value = "select p.id as id, p.title as title, p.price as price from product_service.product p " +
+						  "join product_service.category c on p.category_id = c.id where c.title=:categoryTitle", nativeQuery = true)
    List<ProductProjection> productWithCatTitle (String categoryTitle);
+
+
+   @Query(value = "SELECT c.id, p.title , p.price from product_service.product p join product_service.category" +
+						  " c on c.id = p.category_id where c.id=:categoryName", nativeQuery = true)
+   List<ProductProjection> findProductsByCategoryName (int categoryName);
 }
 

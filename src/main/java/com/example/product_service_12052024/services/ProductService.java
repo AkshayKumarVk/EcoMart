@@ -2,6 +2,8 @@ package com.example.product_service_12052024.services;
 
 import com.example.product_service_12052024.exception.ProductNotFoundException;
 import com.example.product_service_12052024.models.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -11,7 +13,10 @@ public interface ProductService {
 
 
    //   Get All Products
-   List<Product> getAllProducts ();
+   public List<Product> getAllProducts ();
+
+//   Get all products by page
+   public Page<Product> getAllProducts ( int pageNo, int pageSize );
 
    //   Get Single Product
    Product getSingleProduct (Long id) throws ProductNotFoundException;
@@ -49,5 +54,4 @@ public interface ProductService {
 		   String imageUrl,
 		   String category,
 		   double price) throws ProductNotFoundException;
-
 }

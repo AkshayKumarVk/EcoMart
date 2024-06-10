@@ -3,6 +3,7 @@ package com.example.product_service_12052024.services;
 import com.example.product_service_12052024.dtos.FakeStoreDto;
 import com.example.product_service_12052024.exception.ProductNotFoundException;
 import com.example.product_service_12052024.models.Product;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service("fakeStoreProductService")
-public class FakeStoreProductService implements ProductService {
+public class FakeStoreProductService implements  ProductService {
 
    private final RestTemplate restTemplate;
 
@@ -36,6 +37,12 @@ public class FakeStoreProductService implements ProductService {
 		 products.add (fakeStoreDto.toProduct ());
 	  }
 	  return products;
+   }
+
+//   Get Products with page
+   @Override
+   public Page<Product> getAllProducts (int pageNo, int pageSize) {
+	  return null;
    }
 
 

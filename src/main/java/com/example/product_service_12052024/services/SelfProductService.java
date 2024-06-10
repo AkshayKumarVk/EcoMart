@@ -5,6 +5,9 @@ import com.example.product_service_12052024.models.Category;
 import com.example.product_service_12052024.models.Product;
 import com.example.product_service_12052024.repositories.CategoryRepository;
 import com.example.product_service_12052024.repositories.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +16,8 @@ import java.util.List;
 @Service("selfProductService")
 public class SelfProductService implements ProductService {
 
-
    //   Dependency Injection
+
    private final ProductRepository productRepository;
    private final CategoryRepository categoryRepository;
 
@@ -24,8 +27,8 @@ public class SelfProductService implements ProductService {
 	  this.productRepository = productRepository;
 	  this.categoryRepository = categoryRepository;
    }
-//   Dependency Injection
 
+//   Dependency Injection
 
    @Override
    public Product addProduct (String title, String description,
@@ -45,9 +48,8 @@ public class SelfProductService implements ProductService {
 		 categoryFromDb = newCategory;
 	  }
 	  newProduct.setCategory (categoryFromDb);
-	  Product savedProduct = productRepository.save (newProduct);
 
-	  return savedProduct;
+	  return productRepository.save (newProduct);
 
    }
 
@@ -59,6 +61,15 @@ public class SelfProductService implements ProductService {
 //	  }
 	  return productRepository.findAll ();
    }
+
+
+//   Page all products
+   @Override
+   public Page<Product> getAllProducts (int pageNo, int pageSize) {
+
+	  return productRepository.findAll (PageRequest.of (pageNo, pageSize));
+   }
+
 
    @Override
    public Product getSingleProduct (Long id) throws ProductNotFoundException {

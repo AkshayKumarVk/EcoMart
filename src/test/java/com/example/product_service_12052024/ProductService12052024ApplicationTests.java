@@ -126,15 +126,64 @@ class ProductService12052024ApplicationTests {
 
    @Test
    @Transactional
-   void testFetchMode(){
-	  List<Category> categories=categoryRepository.findByTitleEndingWith("Mobiles");
+   void testFetchMode () {
+	  List<Category> categories = categoryRepository.findByTitleEndingWith ("Mobiles");
 
-	  for (Category cats: categories){
+	  for (Category cats : categories) {
 		 System.out.println (cats.getTitle ());
 
-		 List<Product> productList= cats.getProducts ()	;
-		  for (Product products:productList)
-			 System.out.println (products.getTitle ());
+		 List<Product> productList = cats.getProducts ();
+		 for (Product products : productList)
+			System.out.println (products.getTitle ());
+	  }
+   }
+
+//   @Test
+//   void addRandomProducts () {
+//
+//	  String[] productCategories = {"Apple Mobiles", "Samsung Store", "Xiaomi Mobiles", "Vivo Phones",
+//			  "Asus Phones", "Poco Phones", "Nokia Mobiles"};
+//	  String[] productTitles = {"C210", "G400 5G", "M6 Pro", "X5 5G", "F5 5G", "Phone 8", "Phone 6", "X100",
+//			  "13T"};
+//	  String imageUrl = "www.image.com";
+//	  String[] descriptions = {"16 gb ram", "12 gb ram", "5 camera", "88W fast charging", "24W fast charging"};
+//
+//	  Random random = new Random ();
+//
+//	  for (int i = 0; i <= 100; i++) {
+//		 int randomCategoryIndex = random.nextInt (productCategories.length);
+//		 int randomTitleIndex = random.nextInt (productTitles.length);
+//		 int randomDescriptionIndex = random.nextInt (descriptions.length);
+//
+//		 double minPrice=99;
+//		 double maxPrice=999;
+//		 double randomProductPrice =minPrice+(maxPrice-minPrice)*Math.random();
+//		 DecimalFormat df= new DecimalFormat ("#.00");
+//		 randomProductPrice= Double.parseDouble (df.format ((randomProductPrice)));
+//
+//		 Product product = new Product ();
+//		 product.setTitle (productTitles[randomTitleIndex]);
+//		 product.setDescription (descriptions[randomDescriptionIndex]);
+//		 product.setPrice (randomProductPrice);
+//
+//		 Category category = new Category ();
+//		 category.setTitle (productCategories[randomCategoryIndex]);
+//		 product.setCategory (category);
+//		 product.setImageUrl (imageUrl);
+//
+//		 productRepository.save (product);
+//
+//	  }
+//   }
+
+   @Test
+   void titles () {
+	  List<ProductProjection> products = productRepository.findProductsByCategoryName (8);
+
+	  for (ProductProjection product : products) {
+		 System.out.println ("Cid:	" + product.getId ());
+		 System.out.println ("Phones:	" + product.getTitle ());
+		 System.out.println ("Price:	" + product.getPrice ());
 	  }
    }
 }
