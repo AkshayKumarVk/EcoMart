@@ -41,7 +41,7 @@ public class FakeStoreProductService implements  ProductService {
 
 //   Get Products with page
    @Override
-   public Page<Product> getAllProducts (int pageNo, int pageSize) {
+   public Page<Product> getAllProducts (int pageNo, int pageSize, String sortParam) {
 	  return null;
    }
 

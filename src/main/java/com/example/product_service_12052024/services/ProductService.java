@@ -16,7 +16,8 @@ public interface ProductService {
    public List<Product> getAllProducts ();
 
 //   Get all products by page
-   public Page<Product> getAllProducts ( int pageNo, int pageSize );
+   public Page<Product> getAllProducts ( int pageNo, int pageSize,
+										 String sortParam);
 
    //   Get Single Product
    Product getSingleProduct (Long id) throws ProductNotFoundException;

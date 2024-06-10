@@ -8,6 +8,7 @@ import com.example.product_service_12052024.repositories.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,21 +54,23 @@ public class SelfProductService implements ProductService {
 
    }
 
+   //Get all products
    @Override
    public List<Product> getAllProducts () {
-
-//	  if (productRepository.count () == 0) {
-//		 throw new ProductNotFoundException ("There is nothing listed.");
-//	  }
 	  return productRepository.findAll ();
    }
 
 
 //   Page all products
    @Override
-   public Page<Product> getAllProducts (int pageNo, int pageSize) {
+   public Page<Product> getAllProducts (int pageNo,
+										int pageSize,
+										String sortParam) {
 
-	  return productRepository.findAll (PageRequest.of (pageNo, pageSize));
+	  return productRepository.findAll (PageRequest.of (
+			  pageNo,
+			  pageSize,
+			  Sort.by (sortParam).descending ()));
    }
 
 

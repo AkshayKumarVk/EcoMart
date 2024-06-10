@@ -137,6 +137,8 @@ class ProductService12052024ApplicationTests {
 			System.out.println (products.getTitle ());
 	  }
    }
+//Db sample creation
+
 
 //   @Test
 //   void addRandomProducts () {
@@ -155,8 +157,8 @@ class ProductService12052024ApplicationTests {
 //		 int randomTitleIndex = random.nextInt (productTitles.length);
 //		 int randomDescriptionIndex = random.nextInt (descriptions.length);
 //
-//		 double minPrice=99;
-//		 double maxPrice=999;
+//		 double minPrice=9999;
+//		 double maxPrice=199999;
 //		 double randomProductPrice =minPrice+(maxPrice-minPrice)*Math.random();
 //		 DecimalFormat df= new DecimalFormat ("#.00");
 //		 randomProductPrice= Double.parseDouble (df.format ((randomProductPrice)));

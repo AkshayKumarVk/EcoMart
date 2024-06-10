@@ -4,7 +4,6 @@ import com.example.product_service_12052024.dtos.ProductRequestDto;
 import com.example.product_service_12052024.dtos.ProductResponseDto;
 import com.example.product_service_12052024.exception.ProductNotFoundException;
 import com.example.product_service_12052024.models.Product;
-import com.example.product_service_12052024.repositories.ProductRepository;
 import com.example.product_service_12052024.services.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,17 +40,18 @@ public class ProductController {
 //	  return new ResponseEntity<> (productResponseDtos, HttpStatus.OK);
 //   }
 
-//   Get products by page
+   //   Get products by page
    @GetMapping()
    public ResponseEntity<List<ProductResponseDto>> getAllProducts (
 		   @RequestParam("pageNumber") int pageNumber,
-		   @RequestParam("pageSize") int pageSize
+		   @RequestParam("pageSize") int pageSize,
+		   @RequestParam("sortBy") String sortParam
    ) throws ProductNotFoundException {
-	  Page<Product> products= productService.getAllProducts(pageNumber, pageSize);
+	  Page<Product> products = productService.getAllProducts (pageNumber, pageSize,sortParam);
 
 	  List<ProductResponseDto> productResponseDtos = new ArrayList<> ();
 
-	  for(Product product : products){
+	  for (Product product : products) {
 		 productResponseDtos.add (convertProductToProductResponseDto (product));
 	  }
 	  return ResponseEntity.ok (productResponseDtos);
