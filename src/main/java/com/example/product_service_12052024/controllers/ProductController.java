@@ -22,23 +22,23 @@ public class ProductController {
    private final ProductService productService;
    private final ModelMapper modelMapper;
 
-   public ProductController (@Qualifier("fakeStoreProductService") ProductService productService, ModelMapper modelMapper) {
+   public ProductController (@Qualifier("selfProductService") ProductService productService, ModelMapper modelMapper) {
 	  this.productService = productService;
 	  this.modelMapper = modelMapper;
    }
 
 
 //      Get All Products
-//   @GetMapping()
-//   public ResponseEntity<List<ProductResponseDto>> getAllProducts () {
-//	  List<Product> products = productService.getAllProducts ();
-//
-//	  List<ProductResponseDto> productResponseDtos = new ArrayList<> ();
-//	  for (Product product : products) {
-//		 productResponseDtos.add (convertProductToProductResponseDto (product));
-//	  }
-//	  return new ResponseEntity<> (productResponseDtos, HttpStatus.OK);
-//   }
+   @GetMapping("/all")
+   public ResponseEntity<List<ProductResponseDto>> getAllProducts () {
+	  List<Product> products = productService.getAllProducts ();
+
+	  List<ProductResponseDto> productResponseDtos = new ArrayList<> ();
+	  for (Product product : products) {
+		 productResponseDtos.add (convertProductToProductResponseDto (product));
+	  }
+	  return new ResponseEntity<> (productResponseDtos, HttpStatus.OK);
+   }
 
    //   Get products by page
    @GetMapping()
@@ -46,7 +46,7 @@ public class ProductController {
 		   @RequestParam("pageNumber") int pageNumber,
 		   @RequestParam("pageSize") int pageSize,
 		   @RequestParam("sortBy") String sortParam
-   		) throws ProductNotFoundException {
+   		) {
 	  Page<Product> products = productService.getAllProducts (
 			  pageNumber,
 			  pageSize,
