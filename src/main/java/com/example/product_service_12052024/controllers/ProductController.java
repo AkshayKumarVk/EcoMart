@@ -1,8 +1,11 @@
 package com.example.product_service_12052024.controllers;
 
+import com.example.product_service_12052024.commons.AuthUtil;
 import com.example.product_service_12052024.dtos.ProductRequestDto;
 import com.example.product_service_12052024.dtos.ProductResponseDto;
+import com.example.product_service_12052024.dtos.UserDto;
 import com.example.product_service_12052024.exception.ProductNotFoundException;
+import com.example.product_service_12052024.exception.clientexceptions.UnauthorisedClientErrorException;
 import com.example.product_service_12052024.models.Product;
 import com.example.product_service_12052024.services.ProductService;
 import org.modelmapper.ModelMapper;
@@ -21,23 +24,38 @@ public class ProductController {
 
    private final ProductService productService;
    private final ModelMapper modelMapper;
+   private AuthUtil authUtil;
 
-   public ProductController (@Qualifier("selfProductService") ProductService productService, ModelMapper modelMapper) {
+   public ProductController (@Qualifier("selfProductService")
+							 ProductService productService,
+							 ModelMapper modelMapper,
+							 AuthUtil authUtil) {
 	  this.productService = productService;
 	  this.modelMapper = modelMapper;
+	  this.authUtil = authUtil;
    }
 
 
-//      Get All Products
-   @GetMapping("/all")
-   public ResponseEntity<List<ProductResponseDto>> getAllProducts () {
+   //      Get All Products
+   @GetMapping("/all/{tokenValue}")
+   public ResponseEntity<List<ProductResponseDto>> getAllProducts (@PathVariable("tokenValue") String tokenValue) throws UnauthorisedClientErrorException {
+
+//	  Check if the token is valid or not
+//	  make a call to UserService and validate the token
+	  UserDto userDto = authUtil.validateToken (tokenValue);
+
+	  if(userDto == null){
+		 return new ResponseEntity<> (HttpStatus.UNAUTHORIZED);
+	  }
+
 	  List<Product> products = productService.getAllProducts ();
 
 	  List<ProductResponseDto> productResponseDtos = new ArrayList<> ();
 	  for (Product product : products) {
 		 productResponseDtos.add (convertProductToProductResponseDto (product));
 	  }
-	  return new ResponseEntity<> (productResponseDtos, HttpStatus.OK);
+	  return ResponseEntity.ok (productResponseDtos);
+//	  return new ResponseEntity<> (productResponseDtos, HttpStatus.OK);
    }
 
    //   Get products by page
@@ -46,7 +64,7 @@ public class ProductController {
 		   @RequestParam("pageNumber") int pageNumber,
 		   @RequestParam("pageSize") int pageSize,
 		   @RequestParam("sortBy") String sortParam
-   		) {
+   ) {
 	  Page<Product> products = productService.getAllProducts (
 			  pageNumber,
 			  pageSize,
@@ -62,14 +80,14 @@ public class ProductController {
 
 
    //Get Single Product
-   //   send productId to getSingleProduct methode in the productService interface
+   //   Send productId to getSingleProduct methode in the productService interface
    @GetMapping("{id}")
    public ResponseEntity<ProductResponseDto> getProductDetails (@PathVariable("id") Long productId)
 		   throws ProductNotFoundException {
 
 	  Product product = productService.getSingleProduct (productId);
-	  return new ResponseEntity<> (convertProductToProductResponseDto (product), HttpStatus.FOUND);
 
+	  return ResponseEntity.status (HttpStatus.CREATED).body (convertProductToProductResponseDto (product));
    }
 
 
@@ -86,7 +104,9 @@ public class ProductController {
 //	  return new ResponseEntity<> (product, HttpStatus.CREATED);
 	  ProductResponseDto productResponseDto = convertProductToProductResponseDto (product);
 
-	  return new ResponseEntity<> (productResponseDto, HttpStatus.CREATED);
+	  return ResponseEntity.status (HttpStatus.CREATED).body (productResponseDto);
+
+//	  return new ResponseEntity<> (productResponseDto, HttpStatus.CREATED);
    }
 
 
@@ -99,7 +119,8 @@ public class ProductController {
 	  Product product = productService.deleteProduct (productId);
 	  ProductResponseDto productResponseDto = convertProductToProductResponseDto (product);
 
-	  return new ResponseEntity<> (productResponseDto, HttpStatus.ACCEPTED);
+	  return ResponseEntity.status (HttpStatus.ACCEPTED).body (productResponseDto);
+	  //	  return new ResponseEntity<> (productResponseDto, HttpStatus.ACCEPTED);
    }
 
 
@@ -118,8 +139,9 @@ public class ProductController {
 
 	  ProductResponseDto productResponseDto = convertProductToProductResponseDto (product);
 
-	  return new ResponseEntity<> (productResponseDto, HttpStatus.OK);
+//	  return new ResponseEntity<> (productResponseDto, HttpStatus.OK);
 
+	  return ResponseEntity.ok (productResponseDto);
    }
 
 
@@ -137,8 +159,9 @@ public class ProductController {
 			  productRequestDto.getPrice ()
 	  );
 	  ProductResponseDto productResponseDto = convertProductToProductResponseDto (product);
-	  return new ResponseEntity<> (productResponseDto, HttpStatus.OK);
+//	  return new ResponseEntity<> (productResponseDto, HttpStatus.OK);
 
+	  return ResponseEntity.status (HttpStatus.OK).body (productResponseDto);
 
    }
 
@@ -152,17 +175,4 @@ public class ProductController {
 	  return productResponseDto;
 
    }
-
-//   //   Add Exception Handler
-
-//   Moved to controllerAdvice
-
-//   @ExceptionHandler(ProductNotFoundException.class)
-//   public ResponseEntity<ErrorDto> handleProductNotFoundException (ProductNotFoundException productNotFoundException) {
-//
-//	  ErrorDto errorDto = new ErrorDto ();
-//	  errorDto.setErrorMessage (productNotFoundException.getMessage ());
-//
-//	  return new ResponseEntity<> (errorDto, HttpStatus.NOT_FOUND);
-//   }
 }

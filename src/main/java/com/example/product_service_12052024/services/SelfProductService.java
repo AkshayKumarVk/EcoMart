@@ -7,7 +7,6 @@ import com.example.product_service_12052024.repositories.CategoryRepository;
 import com.example.product_service_12052024.repositories.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -61,7 +60,7 @@ public class SelfProductService implements ProductService {
    }
 
 
-//   Page all products
+   //   Page all products
    @Override
    public Page<Product> getAllProducts (int pageNo,
 										int pageSize,
