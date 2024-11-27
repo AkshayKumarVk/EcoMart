@@ -1,4 +1,4 @@
-package com.example.product_service_12052024.services;
+package com.example.product_service_12052024.services.productservices;
 
 import com.example.product_service_12052024.dtos.FakeStoreDto;
 import com.example.product_service_12052024.exception.ProductNotFoundException;
@@ -54,7 +54,7 @@ public class FakeStoreProductService implements  ProductService {
    public Product getSingleProduct (Long productId) throws ProductNotFoundException {
 
 //	  Caching
-//	  First check in cache
+//	  First checks in cache
 
 	  Product productInCache =(Product) redisTemplate.opsForHash ().get (
 			  "PRODUCT",

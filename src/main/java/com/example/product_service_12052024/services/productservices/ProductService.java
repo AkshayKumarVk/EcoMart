@@ -1,9 +1,8 @@
-package com.example.product_service_12052024.services;
+package com.example.product_service_12052024.services.productservices;
 
 import com.example.product_service_12052024.exception.ProductNotFoundException;
 import com.example.product_service_12052024.models.Product;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 

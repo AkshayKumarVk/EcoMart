@@ -1,17 +1,14 @@
 package com.example.product_service_12052024.models;
 
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
-
+@Table(name = "products")
 public class Product extends BaseModel {
 
    private String title;

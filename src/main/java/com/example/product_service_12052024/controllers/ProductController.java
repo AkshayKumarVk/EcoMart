@@ -7,7 +7,7 @@ import com.example.product_service_12052024.dtos.UserDto;
 import com.example.product_service_12052024.exception.ProductNotFoundException;
 import com.example.product_service_12052024.exception.clientexceptions.UnauthorisedClientErrorException;
 import com.example.product_service_12052024.models.Product;
-import com.example.product_service_12052024.services.ProductService;
+import com.example.product_service_12052024.services.productservices.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;

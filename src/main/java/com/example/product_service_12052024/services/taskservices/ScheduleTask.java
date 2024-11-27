@@ -1,4 +1,4 @@
-package com.example.product_service_12052024.services;
+package com.example.product_service_12052024.services.taskservices;
 
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;

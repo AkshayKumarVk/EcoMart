@@ -16,7 +16,7 @@ import java.util.Date;
 @Setter
 
 @MappedSuperclass
-public class BaseModel implements Serializable {
+public abstract class BaseModel implements Serializable {
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
