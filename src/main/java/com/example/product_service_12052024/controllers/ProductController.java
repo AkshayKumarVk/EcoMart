@@ -37,7 +37,7 @@ public class ProductController {
 
 
    //      Get All Products
-   @GetMapping("/all/{tokenValue}")
+   @GetMapping("/getAll/{tokenValue}")
    public ResponseEntity<List<ProductResponseDto>> getAllProducts (@PathVariable("tokenValue") String tokenValue) throws UnauthorisedClientErrorException {
 
 //	  Check if the token is valid or not

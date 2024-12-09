@@ -1,6 +1,7 @@
 package com.example.product_service_12052024.Configs;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -13,6 +14,7 @@ public class ApplicationConfiguration {
 
 
    @Bean
+   @LoadBalanced
    public RestTemplate createRestTemplate () {
 	  return new RestTemplate ();
    }
